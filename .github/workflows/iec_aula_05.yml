@@ -15,8 +15,8 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v2
         with:
           args: >
-            -Dsonar.projectKey=Vinicius-Martines-01_iec_aula_05
-            -Dsonar.organization=vinicius-martines-01
+            -Dsonar.projectKey=KaueBucciotti_sistema-composite-aula05
+            -Dsonar.organization=kauebucciotti
             -Dsonar.sources=.
             -Dsonar.python.version=3.11
             -Dsonar.exclusions=tests/**
@@ -44,12 +44,10 @@ jobs:
           pip install pip-audit
           pip-audit --ignore-vuln CVE-2026-4539
 
-  # Removi o job de 'build' puro pois ele não estava salvando estado/artefato para os próximos
   test:
     needs: security
     strategy: 
       matrix:
-        # Removi Node e foquei em SO, já que o projeto é Python
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ['3.11'] 
     runs-on: ${{ matrix.os }}
@@ -66,7 +64,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest
-          # pip install -r requirements.txt (se houver)
 
       - name: Executar Testes (Linux/macOS)
         if: runner.os != 'Windows'
@@ -85,6 +82,6 @@ jobs:
     needs: test
     if: github.ref == 'refs/heads/main'
     steps:
-    
       - name: Deploy to Server
-        run: echo "Deploy do Sistema de Pedidos finalizado após Quality e Security!"
+        run: echo "Deploy do Sistema de Pedidos finalizado com sucesso!"
+        
